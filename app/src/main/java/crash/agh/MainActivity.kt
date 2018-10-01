@@ -1,5 +1,6 @@
 package crash.agh
 
+import android.graphics.BitmapFactory
 import android.graphics.Color
 import android.graphics.drawable.BitmapDrawable
 import android.support.v7.app.AppCompatActivity
@@ -70,6 +71,23 @@ class MainActivity : AppCompatActivity() {
             graphicOverlay.graphics.add(g)
         }
     }
+
+    /**
+     * Works fine with all versions.
+     */
+    fun drawWithPictureAsync() {
+        graphicOverlay.graphics?.clear()
+
+        val symbol = PictureMarkerSymbol.createAsync(BitmapDrawable(resources, BitmapFactory.decodeResource(resources, R.drawable.ic_flake)))
+
+        symbol.addDoneListener {
+            makeData().map {
+                val g = Graphic(it, emptyMap(), symbol.get())
+                graphicOverlay.graphics.add(g)
+            }
+        }
+    }
+
 
     /**
      * Drawing SimpleMarkerSymbols seems to work fine with all versions.
